@@ -11,6 +11,7 @@ import {
   DropdownItem,
   NavbarText
 } from 'reactstrap'
+
 import { Link } from 'react-router-dom';
 
 
@@ -27,7 +28,7 @@ const NavBarComponent = (props:any) => {
   return (
     <div>
       <Navbar color="light" light expand="md">
-        <NavbarBrand href="/">WebFlicks</NavbarBrand>
+        <NavbarBrand href="/">Menu</NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="mr-auto" navbar>
@@ -39,17 +40,33 @@ const NavBarComponent = (props:any) => {
 
               <DropdownItem>
                   <Link to='/login'>Login</Link>
-                </DropdownItem>            
+                </DropdownItem>       
+
+                <DropdownItem>
+                  <Link to='/profile'>Profile</Link>
+                </DropdownItem>      
+                <DropdownItem>
+                  <Link to='/users'>All Users</Link>
+                </DropdownItem>    
+
+
+
+                <DropdownItem>
+                  <Link to='/role'>Check Role</Link>
+                </DropdownItem> 
+
+                <DropdownItem>
+                  <Link to='/reimbursements'>Reimbursements</Link>
+                </DropdownItem> 
 
                 <DropdownItem divider />
                 <DropdownItem>
-                <Link to='/chucknorris'>ChuckNorrisJokes</Link>
+                <Link to='/logout'>Logout</Link>
                 </DropdownItem>
 
               </DropdownMenu>
             </UncontrolledDropdown>
           </Nav>
-          <NavbarText>Simple Text</NavbarText>
         </Collapse>
       </Navbar>
     </div>

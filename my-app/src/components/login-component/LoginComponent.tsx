@@ -1,71 +1,79 @@
 import React, { SyntheticEvent } from 'react'
 import { Form, FormGroup, Label, Col, Input, Button } from 'reactstrap'
-import { webflicksLogin } from '../../remote/webflicks/login-webflicks'
+import {  project1Login } from '../../remote/project1/login-project1'
 import { User } from '../../models/User'
 import { Redirect } from 'react-router'
 
-interface ILoginState {
-    username: string
-    password: string
-    errorMessage: string
-    user: User | undefined
-}
+interface ILoginProps {
+    updateUser: (u: User) => void;
+  }
+  
+  interface ILoginComponentState {
+    username: string;
+    password: string;
+    errorMessage: string;
+    user: User | undefined;
+  }
 
-export class LoginComponent extends React.Component<any, ILoginState>{
-    constructor(props: any) {
-        super(props)
-        this.state = {
+export class LoginComponent extends React.Component<ILoginProps, ILoginComponentState>
+{
+   
+    constructor(props: any) 
+        {
+          super(props)
+           this.state = 
+        {
             username: '',
             password: '',
             errorMessage: '',
             user: undefined
         }
     }
+ // Functions to update the state of user/pass fields dynamically
+ updateUser = (name: any) => {
+    this.setState({
+      username: name.currentTarget.value
+    });
+  };
+  updatePassword = (pass: any) => {
+    this.setState({
+      password: pass.currentTarget.value
+    });
+  };
 
-
-    submitLogin = async (e: SyntheticEvent) => {
-        e.preventDefault()
-        try {
-            let user = await webflicksLogin(this.state.username, this.state.password)
-           // this.props.history.push('/clicker') // if we run this, it takes them to that path
-            this.setState({
-                user: user,
-                username: '',
-                password: ''
-            })
-        } catch (e) {
-            if (e.status === 404) {
-                this.setState({
-                    password: '',
-                    errorMessage: e.message
-                })
-            } else {
-                this.setState({
-                    password: '',
-                    errorMessage: 'Something Went Wrong. Oops!'
-                })
-            }
-        }
-    }
-
-
-    updateUser = (e: any) => {
-
+  //Function to submit the login form
+  submitLogin = async (e: SyntheticEvent) => {
+    e.preventDefault();
+    try {
+      let user = await  project1Login(this.state.username, this.state.password);
+      //Sets the user in App.tsx
+      this.props.updateUser(user);
+      this.setState({
+        user: user,
+        username: "",
+        password: ""
+      });
+    } catch (e) {
+      if (e.status === 404) {
         this.setState({
-            username: e.currentTarget.value
-        })
-    }
-    updatePassword = (e: any) => {
-
+          password: "",
+          errorMessage: e.message
+        });
+      } else {
         this.setState({
-            password: e.currentTarget.value
-        })
+          password: "",
+          errorMessage: "Something Went Wrong. Oops!"
+        });
+      }
     }
+  };
 
     render() {
-        return (
+
+      //  console.log("=======HELLO WORLD7=========" + this.props.children  );
+        return ( 
             this.state.user ? 
-            <Redirect to='/clicker'/>
+            <Redirect to='/users'/>
             :
             <> 
             {/* a react Fragment, disappears on render */}
